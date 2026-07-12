@@ -1,0 +1,34 @@
+name: Ingesta de empleos
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'     # cada 6 horas
+  workflow_dispatch:           # y también con un botón, cuando quieras
+
+permissions:
+  contents: write
+
+jobs:
+  ingesta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Ejecutar conector
+        env:
+          CAREERJET_KEY: ${{ secrets.CAREERJET_KEY }}
+          CAREERJET_AFFID: ${{ secrets.CAREERJET_AFFID }}
+          JOOBLE_KEY: ${{ secrets.JOOBLE_KEY }}
+        run: node conector.mjs
+
+      - name: Publicar jobs.json
+        run: |
+          git config user.name  "conector"
+          git config user.email "conector@users.noreply.github.com"
+          git add jobs.json
+          git diff --staged --quiet || git commit -m "Ingesta $(date -u +%Y-%m-%d\ %H:%M) UTC"
+          git push
