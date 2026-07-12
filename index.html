@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Empleos Presenciales Chile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#2563eb; --blue-d:#1d4ed8; --blue-l:#eff6ff;
+    --ink:#0f172a; --ink-2:#475569; --ink-3:#94a3b8;
+    --bg:#f8fafc; --line:#e2e8f0; --green:#059669; --green-l:#d1fae5;
+    --amber:#b45309; --amber-l:#fef3c7;
+    --r:12px; --sh:0 1px 2px rgba(15,23,42,.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#fff;color:var(--ink);font:400 15px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{line-height:1.2;letter-spacing:-.02em}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  svg{width:16px;height:16px;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+  /* Header */
+  header.top{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line)}
+  .top-in{max-width:1080px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:10px}
+  #logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:18px;letter-spacing:-.02em}
+  .mark{width:34px;height:34px;border-radius:9px;background:var(--blue);display:grid;place-items:center;color:#fff}
+  .mark svg{width:19px;height:19px}
+  #logo span{color:var(--blue)}
+
+  /* Banner de procedencia */
+  .bn{font-size:12.5px;padding:9px 16px;text-align:center;border-bottom:1px solid var(--line)}
+  .bn.warn{background:var(--amber-l);color:var(--amber)}
+  .bn.ok{background:var(--green-l);color:var(--green)}
+  .bn code{font-family:ui-monospace,monospace;background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px}
+
+  /* Hero */
+  .hero{background:linear-gradient(160deg,#1e40af,#2563eb);color:#fff;padding:44px 0 40px;text-align:center;
+    background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.13) 1px,transparent 0),linear-gradient(160deg,#1e40af,#2563eb);
+    background-size:34px 34px,100% 100%}
+  .pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);
+    padding:6px 14px;border-radius:99px;font-size:13px;font-weight:500;margin-bottom:18px}
+  .pill i{width:7px;height:7px;border-radius:99px;background:#4ade80}
+  .hero h1{font-size:34px;font-weight:700;margin-bottom:12px}
+  .hero > .wrap > p{font-size:16px;color:#dbeafe;max-width:520px;margin:0 auto 26px}
+  @media(min-width:760px){.hero h1{font-size:42px}}
+
+  /* Caja de búsqueda */
+  .sbox{background:#fff;border-radius:var(--r);padding:8px;display:flex;flex-direction:column;gap:6px;
+    max-width:660px;margin:0 auto;box-shadow:0 8px 30px rgba(15,23,42,.16);text-align:left}
+  .fld{position:relative;display:flex;align-items:center;gap:10px;padding:0 12px;border-radius:8px}
+  .fld:focus-within{background:var(--blue-l)}
+  .fi{color:var(--ink-3);display:flex}
+  .fld input{flex:1;border:0;background:transparent;padding:13px 0;font:inherit;color:var(--ink);min-width:0}
+  .fld input:focus{outline:none}
+  .fld + .fld{border-top:1px solid var(--line)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;padding:12px 18px;font-weight:600;font-size:14.5px}
+  .btn.go{background:var(--blue);color:#fff}
+  .btn.go:hover{background:var(--blue-d)}
+  .btn.go.wide{width:100%}
+  .btn.go.sm{padding:9px 14px}
+  .btn.ghost{border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:500}
+  .btn.ghost:hover{border-color:var(--ink-3)}
+  .pops{margin-top:18px;font-size:13.5px;color:#bfdbfe;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center}
+  .pop{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);color:#fff;padding:5px 13px;border-radius:99px;font-size:13px}
+  .pop:hover{background:rgba(255,255,255,.24)}
+
+  /* Autocompletado */
+  .ac{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid var(--line);
+    border-radius:10px;box-shadow:0 12px 28px rgba(15,23,42,.14);max-height:290px;overflow:auto;z-index:40;padding:4px}
+  .ac-item{display:flex;align-items:center;gap:11px;width:100%;text-align:left;padding:9px 10px;border-radius:7px}
+  .ac-item:hover,.ac-item.on{background:var(--blue-l)}
+  .ac-ico{color:var(--blue);display:flex}
+  .ac-txt{flex:1;min-width:0}
+  .ac-txt b{display:block;font-weight:500;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ac-txt em{display:block;font-style:normal;font-size:12px;color:var(--ink-3)}
+  .ac-n{font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .ac-none{padding:14px;font-size:13.5px;color:var(--ink-3);text-align:center}
+
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding-top:26px;padding-bottom:26px}
+  @media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+  .stat{display:flex;align-items:center;gap:12px}
+  .si{width:40px;height:40px;border-radius:10px;background:var(--blue-l);color:var(--blue);display:grid;place-items:center;flex:none}
+  .si svg{width:19px;height:19px}
+  .stat b{display:block;font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .stat em{font-style:normal;font-size:12.5px;color:var(--ink-2)}
+
+  /* Bloques */
+  .block{padding:34px 0;border-top:1px solid var(--line)}
+  .block.alt{background:var(--bg);border-top:1px solid var(--line);max-width:none;padding-left:calc(50vw - 540px);padding-right:calc(50vw - 540px)}
+  @media(max-width:1112px){.block.alt{padding-left:16px;padding-right:16px}}
+  .bh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .bh h2{font-size:21px;font-weight:700}
+  .bh p{font-size:13.5px;color:var(--ink-2);margin-top:3px}
+  h2.mb{font-size:21px;margin-bottom:16px}
+  .link{color:var(--blue);font-weight:600;font-size:14px;display:flex;align-items:center;gap:3px;white-space:nowrap}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+  @media(min-width:760px){.grid{grid-template-columns:repeat(4,1fr)}}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;text-align:left;box-shadow:var(--sh)}
+  .tile:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(37,99,235,.1)}
+  .ti{display:flex;color:var(--blue);margin-bottom:9px}
+  .ti svg{width:19px;height:19px}
+  .tile b{display:block;font-size:13px;color:var(--ink-2);font-weight:500}
+  .tile em{display:block;font-style:normal;font-weight:600;font-size:15px;margin-top:2px}
+  .tile em.big{margin:0 0 4px}
+
+  /* Tarjetas de empleo */
+  .list{display:flex;flex-direction:column;gap:11px}
+  .job{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;cursor:pointer;box-shadow:var(--sh)}
+  .job:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(37,99,235,.1)}
+  .job-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .job h3{font-size:17px;font-weight:600}
+  .tag-on{background:var(--green-l);color:var(--green);font-size:12px;font-weight:500;padding:3px 10px;border-radius:99px;white-space:nowrap}
+  .job-co{display:flex;align-items:center;gap:6px;color:var(--ink-2);font-size:14px;margin-top:5px}
+  .job-co.big{font-size:16px;margin:6px 0 16px}
+  .job-co svg{color:var(--ink-3)}
+  .job-meta{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:9px;font-size:13.5px;color:var(--ink-2)}
+  .job-meta span{display:flex;align-items:center;gap:5px}
+  .job-meta svg{color:var(--ink-3);width:15px;height:15px}
+  .job-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+    margin-top:12px;padding-top:11px;border-top:1px solid var(--line);font-size:13.5px}
+  .sal{font-weight:600}
+  .src{color:var(--ink-3);font-size:12.5px}
+
+  /* Buscar */
+  .searchtop{padding-top:20px;padding-bottom:4px}
+  .searchtop .sbox{box-shadow:none;border:1px solid var(--line);margin:0;max-width:none;padding:6px}
+  .rbar{display:flex;align-items:center;gap:9px;margin:16px 0 4px}
+  .rbar b{font-size:19px;font-weight:700;margin-right:auto}
+  select.btn{-webkit-appearance:none;appearance:none;padding-right:30px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%2394a3b8' stroke-width='2'><path d='M2 4l4 4 4-4'/></svg>");
+    background-repeat:no-repeat;background-position:right 11px center}
+  .cols{display:grid;grid-template-columns:1fr;gap:18px;padding-top:14px;padding-bottom:40px}
+  @media(min-width:900px){.cols{grid-template-columns:230px 1fr}}
+
+  aside{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
+  @media(max-width:899px){
+    aside{display:none}
+    aside.open{display:block;position:fixed;inset:0;z-index:60;border-radius:0;overflow:auto;padding:0 16px 90px;border:0}
+    .fhead{display:flex!important;align-items:center;gap:10px;position:sticky;top:0;background:#fff;
+      border-bottom:1px solid var(--line);margin:0 -16px 16px;padding:11px 16px;z-index:2}
+  }
+  .fhead{display:none}
+  .fback{display:flex;align-items:center;gap:6px;font-weight:500;font-size:14.5px}
+  .fback::before{content:"←";font-size:17px}
+  .fhead .btn{margin-left:auto}
+  .fg{margin-bottom:18px}
+  .fg h3{font-size:12px;font-weight:600;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+  .fg label{display:flex;align-items:center;gap:9px;padding:4px 0;cursor:pointer;font-size:14px}
+  .fg label.mt{margin-top:6px}
+  .fg input{width:16px;height:16px;accent-color:var(--blue)}
+  .fg label span{flex:1}
+  .fg label i{font-style:normal;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .clear{color:#dc2626;font-size:13.5px;font-weight:500}
+
+  .empty{background:#fff;border:1px dashed var(--line);border-radius:var(--r);padding:44px 20px;text-align:center}
+  .empty h3{font-size:17px;margin-bottom:6px}
+  .empty p{color:var(--ink-2);font-size:14px;margin-bottom:16px}
+
+  /* Detalle */
+  .detail{padding:20px 0 44px;display:flex;flex-direction:column;gap:14px}
+  .bc{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--ink-3);flex-wrap:wrap}
+  .bc button{color:var(--ink-2)}
+  .bc button:hover{color:var(--blue)}
+  .bc svg{width:13px;height:13px}
+  .dcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+  .dcard h1{font-size:26px;font-weight:700;margin-top:10px}
+  .dcard h2{font-size:17px;font-weight:600;margin-bottom:9px}
+  .body{color:var(--ink-2);font-size:15px;line-height:1.65}
+  .metas{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .m{display:flex;align-items:center;gap:10px}
+  .mi{width:36px;height:36px;border-radius:9px;background:var(--blue-l);color:var(--blue);display:grid;place-items:center;flex:none}
+  .m em{display:block;font-style:normal;font-size:12px;color:var(--ink-3)}
+  .m b{display:block;font-size:14.5px;font-weight:500}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+  .chip{display:flex;align-items:center;gap:5px;background:var(--bg);border:1px solid var(--line);
+    padding:5px 11px;border-radius:99px;font-size:13px;color:var(--ink-2)}
+  .chip svg{width:14px;height:14px}
+  .applybox{background:var(--bg);border-radius:10px;padding:16px;text-align:center}
+  .applybox p{font-size:13.5px;color:var(--ink-2);margin-bottom:13px}
+  .verif{display:flex;gap:12px}
+  .vi{color:var(--green);flex:none}
+  .vi svg{width:22px;height:22px}
+  .verif b{font-size:14.5px}
+  .verif p{font-size:13px;color:var(--ink-2);margin-top:3px}
+  details summary{margin-top:9px;font-size:13px;color:var(--blue);cursor:pointer;font-weight:500}
+  details ul{margin:8px 0 0 18px;font-size:12.5px;color:var(--ink-2);line-height:1.7}
+
+  /* Footer */
+  footer{background:var(--bg);border-top:1px solid var(--line);padding:34px 0 24px;margin-top:20px}
+  .fcols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(min-width:760px){.fcols{grid-template-columns:repeat(4,1fr)}}
+  .fcols h4{font-size:14px;font-weight:600;margin-bottom:9px}
+  .fcols a,.fcols button{display:block;color:var(--ink-2);font-size:13.5px;padding:3px 0;text-decoration:none;text-align:left}
+  .fcols a:hover,.fcols button:hover{color:var(--blue)}
+  .legal{margin-top:26px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <button id="logo">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></span>
+      Empleos<span>Presenciales</span>
+    </button>
+  </div>
+</header>
+<div id="banner"></div>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div><h4>Empleos por región</h4>
+        <button data-loc="Región Metropolitana de Santiago">Región Metropolitana</button>
+        <button data-loc="Región de Valparaíso">Valparaíso</button>
+        <button data-loc="Región del Biobío">Biobío</button>
+        <button data-loc="Región de Antofagasta">Antofagasta</button></div>
+      <div><h4>Empleos por área</h4>
+        <button data-q="Minería">Minería</button>
+        <button data-q="Salud">Salud</button>
+        <button data-q="Bodega y Logística">Bodega y Logística</button>
+        <button data-q="Retail y Ventas">Retail y Ventas</button></div>
+      <div><h4>Plataforma</h4>
+        <button data-go="buscar">Buscar empleos</button>
+        <a href="#">Términos de uso</a>
+        <a href="#">Privacidad</a></div>
+      <div><h4>Para empresas</h4>
+        <a href="#">Publicar empleos</a>
+        <a href="#">Integración por feed</a>
+        <a href="#">Contacto</a></div>
+    </div>
+    <p class="legal">© 2026 Empleos Presenciales Chile.<br>
+      La postulación siempre se realiza en la fuente original. No almacenamos currículums.</p>
+  </div>
+</footer>
+
+<script>
+/* ── §11 SOURCES ──────────────────────────────────────────── */
+const SOURCES = {
+  empresa:      {id:'empresa',      name:'Portal de la empresa', mech:'Feed/JSON-LD autorizado', legal:'Acuerdo directo',   prio:1, status:'ok'},
+  bne:          {id:'bne',          name:'Bolsa Nacional Empleo',mech:'Convenio público',        legal:'Convenio vigente',  prio:2, status:'ok'},
+  laborum:      {id:'laborum',      name:'Laborum',              mech:'Feed comercial',          legal:'Contrato firmado',  prio:3, status:'ok'},
+  trabajando:   {id:'trabajando',   name:'Trabajando.com',       mech:'Feed comercial',          legal:'Contrato firmado',  prio:4, status:'ok'},
+  computrabajo: {id:'computrabajo', name:'Computrabajo',         mech:'Acuerdo en negociación',  legal:'Carta de intención',prio:5, status:'ok'},
+  universidad:  {id:'universidad',  name:'Portales universitarios',mech:'Feed institucional',    legal:'Convenio vigente',  prio:6, status:'ok'},
+  portalx:      {id:'portalx',      name:'Portal X',             mech:'Scraping sin acuerdo',    legal:'Sin base legal',    prio:9, status:'quarantined'}
+};
+
+/* ── §8.2 TAXONOMÍA GEOGRÁFICA + ALIAS ────────────────────── */
+const GEO = [
+  {commune:'Las Condes',   region:'Región Metropolitana de Santiago', city:'Santiago'},
+  {commune:'Providencia',  region:'Región Metropolitana de Santiago', city:'Santiago'},
+  {commune:'Pudahuel',     region:'Región Metropolitana de Santiago', city:'Santiago'},
+  {commune:'Maipú',        region:'Región Metropolitana de Santiago', city:'Santiago'},
+  {commune:'Santiago',     region:'Región Metropolitana de Santiago', city:'Santiago'},
+  {commune:'Quilicura',    region:'Región Metropolitana de Santiago', city:'Santiago'},
+  {commune:'Antofagasta',  region:'Región de Antofagasta',            city:'Antofagasta'},
+  {commune:'Calama',       region:'Región de Antofagasta',            city:'Calama'},
+  {commune:'Viña del Mar', region:'Región de Valparaíso',             city:'Viña del Mar'},
+  {commune:'Valparaíso',   region:'Región de Valparaíso',             city:'Valparaíso'},
+  {commune:'Concepción',   region:'Región del Biobío',                city:'Concepción'},
+  {commune:'Temuco',       region:'Región de La Araucanía',           city:'Temuco'},
+  {commune:'Puerto Montt', region:'Región de Los Lagos',              city:'Puerto Montt'}
+];
+const GEO_ALIAS = {
+  'stgo':'Santiago','stgo.':'Santiago','santiago centro':'Santiago',
+  'rm':'Región Metropolitana de Santiago','region metropolitana':'Región Metropolitana de Santiago','metropolitana':'Región Metropolitana de Santiago',
+  'viña':'Viña del Mar','vina':'Viña del Mar','viña del mar':'Viña del Mar',
+  'conce':'Concepción','antofa':'Antofagasta','pto montt':'Puerto Montt','valpo':'Valparaíso'
+};
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9ñ ]/g,' ').replace(/\s+/g,' ').trim();
+
+function resolveLocation(raw){
+  const key = norm(raw);
+  // 1. alias exacto
+  const alias = GEO_ALIAS[key] || GEO_ALIAS[raw?.toLowerCase().trim()];
+  const target = alias || raw;
+  // 2. match de comuna
+  let hit = GEO.find(g => norm(g.commune) === norm(target));
+  if(hit) return {...hit, confidence:1.0, method:'comuna exacta'};
+  // 3. match de región
+  hit = GEO.find(g => norm(g.region) === norm(target));
+  if(hit) return {commune:null, region:hit.region, city:null, confidence:0.7, method:'solo región'};
+  // 4. parcial
+  hit = GEO.find(g => norm(target).includes(norm(g.commune)));
+  if(hit) return {...hit, confidence:0.85, method:'coincidencia parcial'};
+  return {commune:null, region:null, city:null, confidence:0, method:'no resuelta'};
+}
+
+/* ── §8.3 CLASIFICADOR DE PRESENCIALIDAD ──────────────────── */
+const REMOTE_RX  = /100% remoto|totalmente remoto|full remote|teletrabajo permanente|desde cualquier lugar|home office total/i;
+const HYBRID_RX  = /h[ií]brid|mixto|(\d)\s*d[ií]as? (en )?oficina/i;
+const ONSITE_RX  = /presencial|en terreno|planta|faena|bodega|sucursal|obra|turno rotativo|asistencia diaria/i;
+
+function classifyWorkplace(raw){
+  const txt = `${raw.title} ${raw.description}`;
+  const trace = [];
+  // 1. campo estructurado de la fuente
+  if(raw.workplace_type){
+    trace.push(`campo estructurado de la fuente = ${raw.workplace_type}`);
+    if(raw.workplace_type === 'REMOTE') return {state:'REMOTE', conf:0.99, trace};
+    if(raw.workplace_type === 'HYBRID') return {state:'HYBRID', conf:0.95, trace};
+    if(raw.workplace_type === 'ONSITE') return {state:'ONSITE_CONFIRMED', conf:0.99, trace};
+  }
+  // 4. reglas negativas primero (conservador)
+  if(REMOTE_RX.test(txt)){ trace.push('regla negativa: expresión de trabajo remoto'); return {state:'REMOTE', conf:0.93, trace}; }
+  if(HYBRID_RX.test(txt)){ trace.push('expresión de modalidad híbrida'); return {state:'HYBRID', conf:0.88, trace}; }
+  // 2. expresiones explícitas
+  if(ONSITE_RX.test(txt)){
+    trace.push('expresión explícita de presencialidad en título/descripción');
+    // 3. dirección o comuna requerida
+    if(raw.location && resolveLocation(raw.location).commune){ trace.push('comuna resuelta a nivel de comuna'); return {state:'ONSITE_CONFIRMED', conf:0.96, trace}; }
+    return {state:'ONSITE_PROBABLE', conf:0.78, trace};
+  }
+  // 5. clasificador estadístico (aquí: heurística por comuna presente)
+  if(raw.location && resolveLocation(raw.location).commune){
+    trace.push('sin señales de modalidad; comuna específica exigida → probable presencial');
+    return {state:'ONSITE_PROBABLE', conf:0.71, trace};
+  }
+  trace.push('sin señales suficientes → revisión manual');
+  return {state:'UNKNOWN', conf:0.30, trace};
+}
+const PUBLISHABLE = new Set(['ONSITE_CONFIRMED','ONSITE_PROBABLE']);
+
+/* ── DATOS CRUDOS (payloads de conectores, §15 paso 2) ────── */
+const D = n => { const d=new Date('2026-07-11T12:00:00-04:00'); d.setDate(d.getDate()-n); return d.toISOString(); };
+const RAW = [
+  /* cluster A — misma vacante en 3 fuentes */
+  {src:'laborum',    ext:'LB-88120', title:'Analista de Operaciones',                company:'Empresa ABC',        location:'Las Condes',  employment:'FULL_TIME', seniority:'mid',   exp:3, smin:1400000, smax:1700000, pub:D(2),  exp_at:D(-30), description:'Responsable de la gestión operativa diaria en oficina de Las Condes. Coordina proveedores, controla indicadores y elabora reportes. Trabajo presencial, jornada completa.', apply:'https://laborum.cl/aviso/88120'},
+  {src:'trabajando', ext:'TR-4471',  title:'Analista de Operaciones - Las Condes',   company:'Empresa ABC SpA',    location:'Las Condes',  employment:'FULL_TIME', seniority:'mid',   exp:3, smin:1400000, smax:null,    pub:D(2),  exp_at:D(-28), description:'Analista de operaciones para gestión operativa diaria en oficina. Coordinación de proveedores, control de indicadores y reportería. Presencial, jornada completa.', apply:'https://trabajando.com/av/4471'},
+  {src:'empresa',    ext:'ABC-OPS-01',title:'Analista de Operaciones',               company:'Empresa ABC',        location:'Las Condes',  employment:'FULL_TIME', seniority:'mid',   exp:3, smin:1400000, smax:1750000, pub:D(3),  exp_at:D(-30), workplace_type:'ONSITE', description:'Buscamos un Analista de Operaciones para nuestra casa matriz en Las Condes. Responsable de la gestión operativa diaria, coordinación con proveedores, control de indicadores de servicio y elaboración de reportes para la gerencia. Modalidad presencial, jornada completa, con estacionamiento y sala cuna.', apply:'https://empresaabc.cl/trabaja/analista-operaciones'},
+  /* cluster B — 2 fuentes */
+  {src:'computrabajo',ext:'CT-30991',title:'Supervisor de Bodega',                   company:'Logística XYZ',      location:'Pudahuel',    employment:'FULL_TIME', seniority:'senior',exp:5, smin:1200000, smax:1500000, pub:D(1),  exp_at:D(-25), description:'Supervisión de bodega y despacho en Pudahuel. Liderazgo de equipo de 12 personas, control de inventario y cumplimiento de turnos. Presencial.', apply:'https://computrabajo.cl/o/30991'},
+  {src:'laborum',    ext:'LB-88455', title:'Supervisor/a de Bodega y Despacho',      company:'Logistica XYZ Ltda', location:'Pudahuel',    employment:'FULL_TIME', seniority:'senior',exp:5, smin:1200000, smax:1500000, pub:D(1),  exp_at:D(-25), description:'Supervisión de bodega y despacho. Liderar equipo de 12 personas, controlar inventario y asegurar cumplimiento de turnos en planta de Pudahuel. Trabajo presencial.', apply:'https://laborum.cl/aviso/88455'},
+  /* cluster C — 2 fuentes, misma vacante, título muy distinto (va a revisión) */
+  {src:'bne',        ext:'BNE-77201',title:'Operador de Grúa Horquilla',             company:'Minera Norte',       location:'Antofagasta', employment:'FULL_TIME', seniority:'junior',exp:2, smin:950000,  smax:1150000, pub:D(4),  exp_at:D(-20), description:'Operación de grúa horquilla en faena de Antofagasta. Turno 7x7, licencia clase D vigente obligatoria. Trabajo en terreno.', apply:'https://bne.cl/oferta/77201'},
+  {src:'computrabajo',ext:'CT-31044',title:'Operario Movimiento de Carga - Faena',   company:'Minera Norte',       location:'Antofagasta', employment:'FULL_TIME', seniority:'junior',exp:2, smin:950000,  smax:1150000, pub:D(5),  exp_at:D(-20), description:'Operación de grúa horquilla y movimiento de carga en faena. Turno 7x7. Licencia clase D vigente. Presencial en faena Antofagasta.', apply:'https://computrabajo.cl/o/31044'},
+  /* singles presenciales */
+  {src:'empresa',    ext:'CLA-ENF-7',title:'Enfermera/o Clínico UCI',                company:'Clínica Los Andes',  location:'Providencia', employment:'FULL_TIME', seniority:'mid',   exp:3, smin:1800000, smax:2200000, pub:D(1),  exp_at:D(-40), workplace_type:'ONSITE', description:'Enfermera/o para Unidad de Cuidados Intensivos en Providencia. Turnos rotativos de 12 horas. Registro en Superintendencia de Salud vigente. Presencial.', apply:'https://clinicalosandes.cl/empleos/enf-uci'},
+  {src:'laborum',    ext:'LB-88900', title:'Vendedor/a Integral Tienda',             company:'Retail Sur',         location:'Concepción',  employment:'FULL_TIME', seniority:'entry', exp:0, smin:600000,  smax:750000,  pub:D(0),  exp_at:D(-30), description:'Atención de clientes en sala de ventas, sucursal Concepción. Sin experiencia requerida, capacitación interna. Presencial, jornada completa.', apply:'https://laborum.cl/aviso/88900'},
+  {src:'trabajando', ext:'TR-4520',  title:'Cajero/a Supermercado',                  company:'Retail Sur',         location:'Conce',       employment:'PART_TIME', seniority:'entry', exp:0, smin:450000,  smax:null,    pub:D(0),  exp_at:D(-30), description:'Cajero para sucursal en Concepción. Turnos part time de fin de semana. Sin experiencia. Presencial en sucursal.', apply:'https://trabajando.com/av/4520'},
+  {src:'bne',        ext:'BNE-77410',title:'Maestro Soldador Estructural',           company:'Constructora Andes', location:'Quilicura',   employment:'FULL_TIME', seniority:'senior',exp:6, smin:1300000, smax:1600000, pub:D(6),  exp_at:D(-25), description:'Soldador estructural para obra en Quilicura. Certificación vigente. Trabajo en obra, jornada completa.', apply:'https://bne.cl/oferta/77410'},
+  {src:'empresa',    ext:'VDM-REC-3',title:'Recepcionista Hotel',                    company:'Hotel Costa',        location:'Viña',        employment:'FULL_TIME', seniority:'entry', exp:1, smin:700000,  smax:820000,  pub:D(3),  exp_at:D(-30), workplace_type:'ONSITE', description:'Recepción de huéspedes en hotel de Viña del Mar. Turnos rotativos, inglés intermedio. Presencial.', apply:'https://hotelcosta.cl/trabaja/recepcion'},
+  {src:'computrabajo',ext:'CT-31200',title:'Auxiliar de Aseo Industrial',            company:'Servicios Limpios',  location:'Maipú',       employment:'SHIFT',     seniority:'entry', exp:0, smin:520000,  smax:null,    pub:D(2),  exp_at:D(-30), description:'Aseo industrial en planta de Maipú. Turnos rotativos día/noche. Sin experiencia. Presencial en planta.', apply:'https://computrabajo.cl/o/31200'},
+  {src:'laborum',    ext:'LB-89011', title:'Analista Contable',                      company:'Consultora Delta',   location:'Stgo.',       employment:'FULL_TIME', seniority:'mid',   exp:3, smin:1300000, smax:1550000, pub:D(4),  exp_at:D(-30), description:'Analista contable para oficina en Santiago centro. Conciliaciones, libro de compras y ventas, apoyo en cierre mensual. Presencial en oficina.', apply:'https://laborum.cl/aviso/89011'},
+  {src:'universidad',ext:'UNI-PRA-12',title:'Práctica Profesional Ingeniería Civil Industrial',company:'Empresa ABC', location:'Las Condes', employment:'INTERNSHIP', seniority:'entry', exp:0, smin:null, smax:null, pub:D(7), exp_at:D(-20), description:'Práctica profesional en área de operaciones, oficina Las Condes. Duración 3 meses. Presencial.', apply:'https://portal.universidad.cl/practicas/12'},
+  {src:'bne',        ext:'BNE-77555',title:'Conductor Camión Clase A2',              company:'Transportes Rojas',  location:'Calama',      employment:'FULL_TIME', seniority:'mid',   exp:4, smin:1100000, smax:1400000, pub:D(5),  exp_at:D(-25), description:'Conductor para ruta minera desde Calama. Licencia A2 vigente, hoja de vida sin anotaciones. Trabajo en terreno, turnos 7x7.', apply:'https://bne.cl/oferta/77555'},
+  {src:'trabajando', ext:'TR-4602',  title:'Asistente de Farmacia',                  company:'Farmacia Central',   location:'Temuco',      employment:'FULL_TIME', seniority:'junior',exp:1, smin:680000,  smax:800000,  pub:D(3),  exp_at:D(-30), description:'Atención en local de Temuco. Manejo de caja y reposición. Presencial en sucursal.', apply:'https://trabajando.com/av/4602'},
+  {src:'laborum',    ext:'LB-89100', title:'Jefe de Turno Planta Salmonera',         company:'Acuícola Sur',       location:'Puerto Montt',employment:'SHIFT',     seniority:'senior',exp:5, smin:1600000, smax:1900000, pub:D(1),  exp_at:D(-30), description:'Jefatura de turno en planta de proceso, Puerto Montt. Manejo de equipos de 30 personas. Trabajo presencial en planta, turnos rotativos.', apply:'https://laborum.cl/aviso/89100'},
+  {src:'empresa',    ext:'VPO-GUA-2',title:'Guardia de Seguridad OS-10',             company:'Puerto Valparaíso',  location:'Valparaíso',  employment:'SHIFT',     seniority:'junior',exp:2, smin:750000,  smax:900000,  pub:D(2),  exp_at:D(-30), workplace_type:'ONSITE', description:'Guardia con credencial OS-10 vigente para recinto portuario. Turnos 4x4. Presencial.', apply:'https://puertovalpo.cl/empleos/guardia'},
+  /* EXCLUIDOS por el clasificador §8.3 */
+  {src:'laborum',    ext:'LB-89200', title:'Desarrollador Full Stack Remoto',        company:'TechCo',             location:'Santiago',    employment:'FULL_TIME', seniority:'senior',exp:5, smin:2500000, smax:3200000, pub:D(1),  exp_at:D(-30), workplace_type:'REMOTE', description:'Desarrollador 100% remoto, trabaja desde cualquier lugar de Chile. Stack React y Node.', apply:'https://laborum.cl/aviso/89200'},
+  {src:'trabajando', ext:'TR-4700',  title:'Ejecutivo Comercial Híbrido',            company:'Seguros Vida',       location:'Providencia', employment:'FULL_TIME', seniority:'mid',   exp:3, smin:1000000, smax:1400000, pub:D(2),  exp_at:D(-30), description:'Modalidad híbrida: 3 días en oficina de Providencia y 2 días de teletrabajo.', apply:'https://trabajando.com/av/4700'},
+  {src:'computrabajo',ext:'CT-31333',title:'Oportunidad Laboral Inmediata',          company:'',                   location:'',            employment:null,        seniority:null,    exp:null,smin:null,   smax:null,    pub:D(3),  exp_at:D(-30), description:'Buscamos personas motivadas. Excelentes ingresos. Postula ya.', apply:'https://computrabajo.cl/o/31333'},
+  /* EXPIRADO */
+  {src:'laborum',    ext:'LB-87000', title:'Operario de Producción',                 company:'Alimentos Norte',    location:'Antofagasta', employment:'FULL_TIME', seniority:'entry', exp:0, smin:650000,  smax:750000,  pub:D(45), exp_at:D(3),  description:'Operario de producción en planta de Antofagasta. Presencial, turnos rotativos.', apply:'https://laborum.cl/aviso/87000'},
+  /* FUENTE EN CUARENTENA — bloqueada antes del índice */
+  {src:'portalx',    ext:'PX-001',   title:'Bodeguero',                              company:'Anónima',            location:'Santiago',    employment:'FULL_TIME', seniority:'entry', exp:0, smin:null, smax:null, pub:D(1), exp_at:D(-30), description:'Bodeguero presencial en Santiago.', apply:'https://portalx.cl/1'}
+];
+
+/* ── §15 PIPELINE ─────────────────────────────────────────── */
+const NOW = new Date('2026-07-11T12:00:00-04:00');
+const tok = s => new Set(norm(s).split(' ').filter(w => w.length>2));
+const jaccard = (a,b) => { const A=tok(a),B=tok(b); if(!A.size||!B.size) return 0; let i=0; A.forEach(x=>{if(B.has(x))i++;}); return i/(A.size+B.size-i); };
+const hash = s => { let h=0; const t=norm(s); for(let i=0;i<t.length;i++){h=(h<<5)-h+t.charCodeAt(i);h|=0;} return (h>>>0).toString(16).padStart(8,'0'); };
+const cleanCompany = c => norm(c).replace(/\b(spa|ltda|limitada|sa|s a|eirl|chile)\b/g,'').trim();
+
+let STATS, REVIEW_QUEUE, DECISIONS, occurrences, jobs;
+
+function buildIndex(rawList){
+STATS = {received:0, quarantined:0, invalid:0, normalized:0, excluded:0, expired:0, occurrences:0, canonical:0, merged:0, review:0};
+REVIEW_QUEUE = []; DECISIONS = []; occurrences = []; jobs = [];
+
+for(const r of rawList){
+  STATS.received++;
+  const S = SOURCES[r.src] || (SOURCES[r.src] = {id:r.src, name:r.src, mech:'Declarado por el conector', legal:'Declarado por el operador', prio:5, status:'ok'});
+  // §11.4 — conector sin base legal: no entra al catálogo
+  if(S.status === 'quarantined'){ STATS.quarantined++; continue; }
+  // §15.4 validación de esquema mínima (§30: cargo, empresa, ubicación, descripción, URL)
+  if(!r.title || !r.company || !r.location || !r.description || r.description.length < 40 || !r.apply){
+    STATS.invalid++; REVIEW_QUEUE.push({ext:r.ext, src:r.src, reason:'esquema incompleto (empresa/ubicación/descripción mínima)'}); continue;
+  }
+  STATS.normalized++;
+  // §15.8 expiración
+  if(new Date(r.exp_at) < NOW){ STATS.expired++; continue; }
+  // §8.3 clasificador
+  const wp = classifyWorkplace(r);
+  if(!PUBLISHABLE.has(wp.state)){
+    STATS.excluded++;
+    if(wp.state === 'UNKNOWN') REVIEW_QUEUE.push({ext:r.ext, src:r.src, reason:'modalidad no determinada'});
+    continue;
+  }
+  // §15.6 geocoding + normalización
+  const geo = resolveLocation(r.location);
+  occurrences.push({
+    id:`occ_${r.src}_${r.ext}`, source_id:r.src, external_job_id:r.ext,
+    raw_title:r.title, raw_company:r.company, raw_location:r.location,
+    title:r.title, company:r.company, company_key:cleanCompany(r.company),
+    geo, workplace:wp.state, onsite_confidence:wp.conf, wp_trace:wp.trace,
+    employment:r.employment, seniority:r.seniority, exp_years:r.exp,
+    salary_min:r.smin, salary_max:r.smax,
+    published_at:new Date(r.pub), expires_at:new Date(r.exp_at),
+    description:r.description, content_hash:hash(r.description),
+    apply_url:r.apply, source_priority:S.prio, clicks:0
+  });
+  STATS.occurrences++;
+}
+
+dedupe();
+STATS.canonical = jobs.length;
+} /* fin buildIndex */
+
+/* ── §13 DEDUPLICACIÓN HÍBRIDA ────────────────────────────── */
+function score(a,b){
+  const t  = jaccard(a.title, b.title);
+  const c  = a.company_key === b.company_key ? 1 : jaccard(a.company_key, b.company_key);
+  const l  = (a.geo.commune && a.geo.commune === b.geo.commune) ? 1 : (a.geo.region === b.geo.region ? 0.5 : 0);
+  const d  = jaccard(a.description, b.description);
+  const days = Math.abs(a.published_at - b.published_at)/864e5;
+  const p  = Math.max(0, 1 - days/14);
+  const s  = (a.salary_min && b.salary_min) ? Math.max(0, 1 - Math.abs(a.salary_min-b.salary_min)/Math.max(a.salary_min,b.salary_min)) : 0.5;
+  const total = 0.25*t + 0.20*c + 0.15*l + 0.25*d + 0.10*p + 0.05*s;
+  return {t,c,l,d,p,s,total};
+}
+
+function dedupe(){
+for(const occ of occurrences){
+  // Etapa 1: generación de candidatos (bloqueo por empresa+comuna o por hash)
+  const candidates = jobs.filter(j => {
+    const base = j.occurrences[0];
+    return base.content_hash === occ.content_hash ||
+           (base.company_key === occ.company_key && base.geo.commune === occ.geo.commune) ||
+           (base.geo.commune === occ.geo.commune && jaccard(base.title, occ.title) > 0.3);
+  });
+  // Etapa 2: puntuación
+  let best = null;
+  for(const j of candidates){
+    const sc = score(j.occurrences[0], occ);
+    if(!best || sc.total > best.sc.total) best = {job:j, sc};
+  }
+  if(best){
+    const {job, sc} = best;
+    const base = job.occurrences[0];
+    const sameCoOrComuna = base.company_key === occ.company_key && base.geo.commune === occ.geo.commune;
+    let action, reason;
+    if(sc.total >= 0.92){ action='merge'; reason='puntaje ≥ 0,92 — combinación automática'; }
+    else if(sc.total >= 0.80){ action = sameCoOrComuna ? 'merge' : 'split'; reason = sameCoOrComuna ? '0,80–0,91 con empresa y comuna coincidentes — combina' : '0,80–0,91 sin coincidencia de empresa y comuna — se mantiene separado'; }
+    else if(sc.total >= 0.65){ action='review'; reason='0,65–0,79 — enviado a revisión humana'; }
+    else { action='split'; reason='< 0,65 — se mantiene separado'; }
+
+    DECISIONS.push({a:base.raw_title, as:base.source_id, b:occ.raw_title, bs:occ.source_id, sc, action, reason});
+
+    if(action === 'merge'){ job.occurrences.push(occ); STATS.merged++; rebuildCanonical(job); continue; }
+    if(action === 'review'){
+      // conservador: se publica separado y se marca para revisión (§13.1)
+      STATS.review++;
+      REVIEW_QUEUE.push({ext:occ.external_job_id, src:occ.source_id, reason:`posible duplicado de ${base.external_job_id} (score ${sc.total.toFixed(2)})`});
+    }
+  }
+  jobs.push(newCanonical(occ));
+}
+}
+
+/* §13.2 registro canónico: combina los mejores atributos */
+function newCanonical(occ){ const j = {id:'job_'+hash(occ.id), occurrences:[occ]}; rebuildCanonical(j); return j; }
+function rebuildCanonical(j){
+  const O = j.occurrences;
+  const byPrio = [...O].sort((a,b)=>a.source_priority-b.source_priority);
+  const longestTitle = [...O].sort((a,b)=>b.title.length-a.title.length)[0];
+  const longestDesc  = [...O].sort((a,b)=>b.description.length-a.description.length)[0];
+  const bestGeo      = [...O].sort((a,b)=>b.geo.confidence-a.geo.confidence)[0];
+  const withSalary   = O.filter(o=>o.salary_min);
+  const oldest       = [...O].sort((a,b)=>a.published_at-b.published_at)[0];
+  const best         = byPrio[0]; // §13.2 enlace según prioridad contractual
+  Object.assign(j, {
+    slug: norm(longestTitle.title).replace(/ /g,'-'),
+    title: longestTitle.title.replace(/\s*-\s*[A-ZÁÉÍÓÚÑ].*$/,'').trim() || longestTitle.title,
+    display_title: longestTitle.title,
+    company: byPrio[0].company,
+    description: longestDesc.description,
+    geo: bestGeo.geo,
+    workplace: O.some(o=>o.workplace==='ONSITE_CONFIRMED') ? 'ONSITE_CONFIRMED' : 'ONSITE_PROBABLE',
+    onsite_confidence: Math.max(...O.map(o=>o.onsite_confidence)),
+    wp_trace: [...O].sort((a,b)=>b.onsite_confidence-a.onsite_confidence)[0].wp_trace,
+    employment: best.employment, seniority: best.seniority, exp_years: best.exp_years,
+    salary_min: withSalary.length ? Math.min(...withSalary.map(o=>o.salary_min)) : null,
+    salary_max: withSalary.length ? Math.max(...withSalary.map(o=>o.salary_max||o.salary_min)) : null,
+    published_at: oldest.published_at,
+    expires_at: new Date(Math.max(...O.map(o=>o.expires_at))),
+    apply: best,
+    last_verified_at: NOW,
+    quality: Math.min(1, (0.4 + (j.occurrences.length>1?0.15:0) + (withSalary.length?0.2:0) + (bestGeo.geo.commune?0.25:0)))
+  });
+}
+
+/* ── §14 BÚSQUEDA + RANKING ───────────────────────────────── */
+const SYN = {'grua':['horquilla','carga','montacargas'],'bodega':['despacho','almacen','bodeguero'],'enfermeria':['enfermera','enfermero','uci','clinico'],'ventas':['vendedor','comercial','cajero','tienda'],'contable':['contabilidad','contador']};
+function expand(q){ const t=norm(q).split(' ').filter(Boolean); const out=[...t]; t.forEach(w=>{ for(const k in SYN){ if(k.includes(w)||w.includes(k)) out.push(k,...SYN[k]); if(SYN[k].some(s=>s.includes(w))) out.push(k,...SYN[k]); } }); return [...new Set(out)]; }
+
+const F = {q:'', loc:'', employment:new Set(), seniority:new Set(), days:0, salary:0, salaryOnly:false, source:new Set()};
+
+function search(){
+  const terms = expand(F.q);
+  const locR  = F.loc ? resolveLocation(F.loc) : null;
+  return jobs.map(j=>{
+    // texto
+    let rel = 1;
+    if(terms.length){
+      const hay = norm(`${j.display_title} ${j.company} ${j.description} ${j.geo.commune} ${j.geo.region}`);
+      const hits = terms.filter(t=>hay.includes(t)).length;
+      const titleHits = terms.filter(t=>norm(j.display_title).includes(t)).length;
+      if(!hits) return null;
+      rel = 1 + hits/terms.length + titleHits*1.5;
+    }
+    // ubicación
+    let locMatch = 1;
+    if(locR){
+      if(locR.commune && j.geo.commune === locR.commune) locMatch = 1.6;
+      else if(j.geo.region === locR.region) locMatch = 1.15;
+      else return null;
+    }
+    // filtros
+    if(F.employment.size && !F.employment.has(j.employment)) return null;
+    if(F.seniority.size && !F.seniority.has(j.seniority)) return null;
+    if(F.days && (NOW - j.published_at)/864e5 > F.days) return null;
+    if(F.salary && (!j.salary_min || j.salary_min < F.salary)) return null;
+    if(F.salaryOnly && !j.salary_min) return null;
+    if(F.source.size && !j.occurrences.some(o=>F.source.has(o.source_id))) return null;
+    const days = (NOW - j.published_at)/864e5;
+    const fresh = 1 + Math.max(0, (14-days)/14) * 0.4;
+    const reliab = 1 + (1/j.apply.source_priority)*0.15;
+    return {j, s: rel * fresh * (0.6+j.quality*0.4) * locMatch * reliab};
+  }).filter(Boolean).sort((a,b)=>b.s-a.s).map(x=>x.j);
+}
+
+/* ── §17.2 JSON-LD ────────────────────────────────────────── */
+const EMP = {FULL_TIME:'Jornada completa', PART_TIME:'Jornada parcial', SHIFT:'Turnos', TEMPORARY:'Temporal', INTERNSHIP:'Práctica'};
+const SEN = {entry:'Sin experiencia', junior:'Junior', mid:'Intermedio', senior:'Senior', manager:'Jefatura'};
+function jsonld(j){
+  const o = {
+    "@context":"https://schema.org","@type":"JobPosting",
+    title: j.display_title,
+    description: `<p>${j.description}</p>`,
+    identifier:{"@type":"PropertyValue", name:"Empleos Presenciales Chile", value:j.id},
+    datePosted: j.published_at.toISOString().slice(0,10),
+    validThrough: j.expires_at.toISOString(),
+    employmentType: j.employment,
+    hiringOrganization:{"@type":"Organization", name:j.company},
+    jobLocation:{"@type":"Place", address:{"@type":"PostalAddress", addressLocality:j.geo.commune, addressRegion:j.geo.region, addressCountry:"CL"}}
+  };
+  if(j.salary_min) o.baseSalary = {"@type":"MonetaryAmount", currency:"CLP", value:{"@type":"QuantitativeValue", minValue:j.salary_min, maxValue:j.salary_max||j.salary_min, unitText:"MONTH"}};
+  return JSON.stringify(o, null, 2);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   CAPA DE PRESENTACIÓN
+   El motor de arriba (clasificador §8.3, dedup §13, ranking §14)
+   queda intacto. Esto solo lo muestra.
+   ═══════════════════════════════════════════════════════════ */
+
+/* Áreas profesionales (§8.1) — clasificación por palabras clave */
+const AREAS = [
+  ['Salud',                 /enfermer|m[ée]dic|matron|kinesi|dental|nutricion|farmac|cl[íi]nic|hospital|paramedic|tens/i],
+  ['Minería',               /miner|faena|geolog|planta concentradora|sondaje|tronadura/i],
+  ['Tecnología',            /desarrollador|programad|software|sistemas|soporte t[ée]cnic|数|datos|ti\b|inform[áa]tic|devops|qa\b/i],
+  ['Administración y Finanzas', /contab|contador|administrativ|finanz|tesorer|recursos humanos|secretari|analista de operaciones/i],
+  ['Retail y Ventas',       /vendedor|ventas|cajer|tienda|comercial|reponedor|sala de venta|ejecutiv/i],
+  ['Bodega y Logística',    /bodeg|log[íi]stic|despacho|inventario|gr[úu]a|horquilla|picking|almacen/i],
+  ['Educación',             /profesor|docente|educador|parvular|colegio|instructor/i],
+  ['Construcción',          /soldador|obra|maestro|construc|albañil|electricista|gasfiter|carpinter/i],
+  ['Transporte',            /conductor|chofer|cami[óo]n|repartidor|delivery|licencia a[0-9]/i],
+  ['Servicios Generales',   /aseo|guardia|seguridad|conserje|auxiliar|recepcion|jardiner|garz[óo]n/i]
+];
+const areaOf = j => (AREAS.find(([, rx]) => rx.test(`${j.display_title} ${j.description}`)) || ['Otros'])[0];
+
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const money = n => n ? '$' + n.toLocaleString('es-CL') : null;
+const ago = d => { const n = Math.round((NOW - d) / 864e5); return n <= 0 ? 'Hoy' : n === 1 ? 'Ayer' : n < 7 ? `Hace ${n} días` : n < 14 ? 'Hace 1 semana' : `Hace ${Math.round(n / 7)} semanas`; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+const ICON = {
+  pin:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  bag:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>',
+  co:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/><path d="M9 9h.01M9 13h.01M9 17h.01M15 9h.01M15 13h.01M15 17h.01"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  cash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>',
+  find: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  layer:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/></svg>',
+  chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>'
+};
+
+/* ── Estado de vista ──────────────────────────────────────── */
+const V = { view: 'home', jobId: null, sort: 'recientes' };
+
+/* ═══════════════ AUTOCOMPLETADO DE UBICACIÓN ═══════════════
+   Se abre al hacer clic (no solo al escribir), agrupa por región,
+   muestra el inventario real y solo ofrece lugares con empleos.  */
+function locOptions() {
+  const byRegion = {};
+  for (const j of jobs) {
+    const r = j.geo.region, c = j.geo.commune;
+    byRegion[r] ||= { region: r, total: 0, communes: {} };
+    byRegion[r].total++;
+    if (c) byRegion[r].communes[c] = (byRegion[r].communes[c] || 0) + 1;
+  }
+  const out = [];
+  for (const r of Object.values(byRegion).sort((a, b) => b.total - a.total)) {
+    out.push({ type: 'Región', label: r.region, n: r.total });
+    for (const [c, n] of Object.entries(r.communes).sort((a, b) => b[1] - a[1]))
+      out.push({ type: 'Comuna', label: c, n, sub: r.region });
+  }
+  return out;
+}
+
+function mountAutocomplete(input, box, kind) {
+  let items = [], cursor = -1;
+
+  const build = () => {
+    const raw = input.value.trim();
+    const q = norm(raw);
+    if (kind === 'loc') {
+      const alias = GEO_ALIAS[q];                                  // Stgo., RM, Conce, Viña
+      items = locOptions().filter(o => !q || norm(o.label).includes(q) || (alias && o.label === alias));
+      if (alias && items.length) items.sort((a, b) => (b.label === alias) - (a.label === alias));
+    } else {
+      const titles = [...new Set(jobs.map(j => j.title))];
+      const cos = [...new Set(jobs.map(j => j.company))];
+      const areas = [...new Set(jobs.map(areaOf))];
+      const count = (arr, fn) => arr.map(v => ({ label: v, n: jobs.filter(fn(v)).length }));
+      items = [
+        ...count(areas, v => j => areaOf(j) === v).map(o => ({ ...o, type: 'Área' })),
+        ...count(titles, v => j => j.title === v).map(o => ({ ...o, type: 'Cargo' })),
+        ...count(cos, v => j => j.company === v).map(o => ({ ...o, type: 'Empresa' }))
+      ].filter(o => !q || norm(o.label).includes(q));
+    }
+    items = items.slice(0, 40);
+    cursor = -1;
+    paint();
+  };
+
+  const paint = () => {
+    if (!items.length) {
+      box.innerHTML = `<div class="ac-none">Sin coincidencias con inventario activo</div>`;
+      box.hidden = false; return;
+    }
+    box.innerHTML = items.map((o, i) => `
+      <button type="button" class="ac-item${i === cursor ? ' on' : ''}" data-i="${i}">
+        <span class="ac-ico">${o.type === 'Comuna' || o.type === 'Región' ? ICON.pin : o.type === 'Área' ? ICON.layer : o.type === 'Empresa' ? ICON.co : ICON.bag}</span>
+        <span class="ac-txt"><b>${esc(o.label)}</b>${o.sub ? `<em>${esc(o.sub)}</em>` : ''}</span>
+        <span class="ac-n">${o.n}</span>
+      </button>`).join('');
+    box.hidden = false;
+    box.querySelectorAll('.ac-item').forEach(b => b.onmousedown = e => { e.preventDefault(); pick(+b.dataset.i); });
+  };
+
+  const pick = i => { input.value = items[i].label; box.hidden = true; input.blur(); doSearch(); };
+
+  input.addEventListener('focus', build);      // ← abre al hacer clic, sin escribir nada
+  input.addEventListener('click', build);
+  input.addEventListener('input', build);
+  input.addEventListener('blur', () => setTimeout(() => box.hidden = true, 120));
+  input.addEventListener('keydown', e => {
+    if (box.hidden) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); cursor = Math.min(cursor + 1, items.length - 1); paint(); box.children[cursor]?.scrollIntoView({ block: 'nearest' }); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); cursor = Math.max(cursor - 1, 0); paint(); box.children[cursor]?.scrollIntoView({ block: 'nearest' }); }
+    else if (e.key === 'Enter' && cursor >= 0) { e.preventDefault(); pick(cursor); }
+    else if (e.key === 'Escape') box.hidden = true;
+  });
+}
+
+/* ── Navegación ───────────────────────────────────────────── */
+/* pushState lanza SecurityError en iframes con origen "null" (previsualizadores
+   tipo sandbox). Si no está disponible, navegamos igual, solo sin historial. */
+let HIST = true;
+function nav(view, id) {
+  V.view = view; V.jobId = id || null;
+  if (HIST) {
+    try { history.pushState({ view, id }, '', '#' + view + (id ? '/' + id : '')); }
+    catch { HIST = false; }
+  }
+  paintApp(); window.scrollTo(0, 0);
+}
+window.onpopstate = e => { V.view = e.state?.view || 'home'; V.jobId = e.state?.id || null; paintApp(); };
+
+function doSearch() {
+  F.q = $('#q')?.value || F.q;
+  F.loc = $('#loc')?.value || F.loc;
+  if (V.view !== 'buscar') nav('buscar'); else paintApp();
+}
+
+/* ── Tarjeta de empleo ────────────────────────────────────── */
+const card = j => `
+  <article class="job" data-id="${j.id}" tabindex="0">
+    <div class="job-top">
+      <h3>${esc(j.display_title)}</h3>
+      <span class="tag-on">Presencial</span>
+    </div>
+    <div class="job-co">${ICON.co} ${esc(j.company)}</div>
+    <div class="job-meta">
+      <span>${ICON.pin} ${esc(j.geo.commune || j.geo.region)}, ${esc(j.geo.region.replace('Región ', '').replace(' de Santiago', ''))}</span>
+      <span>${ICON.bag} ${EMP[j.employment] || 'Jornada por definir'}</span>
+      <span>${ICON.clock} ${ago(j.published_at)}</span>
+    </div>
+    <div class="job-foot">
+      <span class="sal">${j.salary_min ? money(j.salary_min) + (j.salary_max && j.salary_max !== j.salary_min ? ' – ' + money(j.salary_max) : '') + ' mensual' : 'Salario no publicado'}</span>
+      <span class="src">${j.occurrences.length > 1 ? `${j.occurrences.length} fuentes · ` : ''}${esc(SOURCES[j.apply.source_id].name)}</span>
+    </div>
+  </article>`;
+
+/* ── HOME ─────────────────────────────────────────────────── */
+function viewHome() {
+  const regions = {};
+  jobs.forEach(j => regions[j.geo.region] = (regions[j.geo.region] || 0) + 1);
+  const areas = {};
+  jobs.forEach(j => { const a = areaOf(j); areas[a] = (areas[a] || 0) + 1; });
+  const empresas = new Set(jobs.map(j => j.company)).size;
+  const recientes = [...jobs].sort((a, b) => b.published_at - a.published_at).slice(0, 4);
+  const short = r => r.replace('Región ', '').replace(' de Santiago', '').replace('del ', '').replace('de ', '');
+
+  return `
+  <section class="hero">
+    <div class="wrap">
+      <span class="pill"><i></i>${jobs.length} empleos presenciales activos</span>
+      <h1>Encuentra empleos presenciales en Chile</h1>
+      <p>Ofertas consolidadas desde múltiples fuentes en una sola búsqueda, sin duplicados y siempre vigentes.</p>
+      ${searchBox()}
+      <div class="pops">
+        <span>Búsquedas populares:</span>
+        ${['Bodega', 'Salud', 'Ventas', 'Minería', 'Construcción'].map(p => `<button class="pop" data-pop="${p}">${p}</button>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap stats">
+    ${[[ICON.bag, jobs.length, 'Empleos activos'], [ICON.pin, Object.keys(regions).length, 'Regiones con ofertas'],
+       [ICON.layer, Object.keys(areas).length, 'Áreas profesionales'], [ICON.co, empresas, 'Empresas contratando']]
+      .map(([i, n, l]) => `<div class="stat"><span class="si">${i}</span><div><b>${n}</b><em>${l}</em></div></div>`).join('')}
+  </section>
+
+  <section class="wrap block">
+    <header class="bh"><div><h2>Empleos por región</h2><p>Explora oportunidades presenciales a lo largo de Chile</p></div>
+      <button class="link" data-go="buscar">Ver todas ${ICON.chev}</button></header>
+    <div class="grid">
+      ${Object.entries(regions).sort((a, b) => b[1] - a[1]).map(([r, n]) => `
+        <button class="tile" data-loc="${esc(r)}">
+          <span class="ti">${ICON.pin}</span><b>${n} empleo${n === 1 ? '' : 's'}</b><em>${esc(short(r))}</em>
+        </button>`).join('')}
+    </div>
+  </section>
+
+  <section class="wrap block alt">
+    <header class="bh"><div><h2>Empleos por área</h2><p>Filtra por sector profesional</p></div></header>
+    <div class="grid">
+      ${Object.entries(areas).sort((a, b) => b[1] - a[1]).map(([a, n]) => `
+        <button class="tile" data-q="${esc(a)}">
+          <span class="ti">${ICON.layer}</span><em class="big">${esc(a)}</em><b>${n} empleo${n === 1 ? '' : 's'}</b>
+        </button>`).join('')}
+    </div>
+  </section>
+
+  <section class="wrap block">
+    <header class="bh"><div><h2>Recién publicados</h2><p>Las ofertas más recientes de la plataforma</p></div>
+      <button class="link" data-go="buscar">Ver todos ${ICON.chev}</button></header>
+    <div class="list">${recientes.map(card).join('')}</div>
+  </section>`;
+}
+
+const searchBox = () => `
+  <div class="sbox">
+    <label class="fld">
+      <span class="fi">${ICON.find}</span>
+      <input id="q" autocomplete="off" placeholder="Cargo o palabra clave" value="${esc(F.q)}">
+      <div class="ac" id="ac-q" hidden></div>
+    </label>
+    <label class="fld">
+      <span class="fi">${ICON.pin}</span>
+      <input id="loc" autocomplete="off" placeholder="Comuna, ciudad o región" value="${esc(F.loc)}">
+      <div class="ac" id="ac-loc" hidden></div>
+    </label>
+    <button class="btn go" id="go">${ICON.find} Buscar</button>
+  </div>`;
+
+/* ── BUSCAR ───────────────────────────────────────────────── */
+function viewSearch() {
+  let R = search();
+  if (V.sort === 'salario') R = [...R].sort((a, b) => (b.salary_min || 0) - (a.salary_min || 0));
+  if (V.sort === 'recientes') R = [...R].sort((a, b) => b.published_at - a.published_at);
+
+  const facet = fn => { const m = {}; jobs.forEach(j => { const v = fn(j); if (v) m[v] = (m[v] || 0) + 1; }); return m; };
+  const emp = facet(j => j.employment), sen = facet(j => j.seniority);
+
+  return `
+  <section class="wrap searchtop">
+    ${searchBox()}
+    <div class="rbar">
+      <b>${R.length} empleo${R.length === 1 ? '' : 's'}</b>
+      <button class="btn ghost" id="openf">Filtros${activeCount() ? ` · ${activeCount()}` : ''}</button>
+      <select id="sort" class="btn ghost">
+        <option value="recientes"${V.sort === 'recientes' ? ' selected' : ''}>Más recientes</option>
+        <option value="relevancia"${V.sort === 'relevancia' ? ' selected' : ''}>Relevancia</option>
+        <option value="salario"${V.sort === 'salario' ? ' selected' : ''}>Mayor salario</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="wrap cols">
+    <aside id="filters">
+      <div class="fhead"><button class="fback" id="fback">Volver a resultados</button>
+        <button class="btn go sm" id="fdone">Ver ${R.length}</button></div>
+      ${fgroup('Jornada', 'employment', emp, EMP)}
+      ${fgroup('Experiencia', 'seniority', sen, SEN)}
+      <div class="fg"><h3>Publicación</h3>
+        ${[[0, 'Cualquier fecha'], [1, 'Últimas 24 h'], [7, 'Últimos 7 días'], [14, 'Últimos 14 días']].map(([v, l]) =>
+          `<label><input type="radio" name="days" data-f="days" value="${v}"${F.days == v ? ' checked' : ''}><span>${l}</span></label>`).join('')}</div>
+      <div class="fg"><h3>Salario mínimo</h3>
+        ${[[0, 'Cualquiera'], [700000, '$700.000+'], [1000000, '$1.000.000+'], [1500000, '$1.500.000+']].map(([v, l]) =>
+          `<label><input type="radio" name="sal" data-f="salary" value="${v}"${F.salary == v ? ' checked' : ''}><span>${l}</span></label>`).join('')}
+        <label class="mt"><input type="checkbox" data-f="salaryOnly"${F.salaryOnly ? ' checked' : ''}><span>Solo con salario publicado</span></label></div>
+      <button class="clear" id="clear">Limpiar filtros</button>
+    </aside>
+    <div>
+      ${R.length ? `<div class="list">${R.map(card).join('')}</div>`
+        : `<div class="empty"><h3>Ningún empleo coincide</h3>
+             <p>Prueba con menos filtros, o busca por región en vez de comuna.</p>
+             <button class="btn go" id="clear2">Limpiar filtros</button></div>`}
+    </div>
+  </section>`;
+}
+const fgroup = (title, key, counts, dict) => `
+  <div class="fg"><h3>${title}</h3>
+    ${Object.keys(counts).map(k => `<label><input type="checkbox" data-f="${key}" value="${k}"${F[key].has(k) ? ' checked' : ''}>
+      <span>${dict[k] || k}</span><i>${counts[k]}</i></label>`).join('')}</div>`;
+const activeCount = () => F.employment.size + F.seniority.size + F.source.size + (F.days ? 1 : 0) + (F.salary ? 1 : 0) + (F.salaryOnly ? 1 : 0);
+
+/* ── DETALLE ──────────────────────────────────────────────── */
+function viewJob() {
+  const j = jobs.find(x => x.id === V.jobId);
+  if (!j) return viewSearch();
+  const area = areaOf(j);
+  const sim = jobs.filter(x => x !== j && (areaOf(x) === area || x.geo.region === j.geo.region)).slice(0, 3);
+  const meta = (i, l, v) => `<div class="m"><span class="mi">${i}</span><div><em>${l}</em><b>${v}</b></div></div>`;
+
+  return `
+  <section class="wrap detail">
+    <nav class="bc"><button data-go="home">Inicio</button>${ICON.chev}<button data-go="buscar">Empleos</button>${ICON.chev}<span>${esc(area)}</span></nav>
+
+    <div class="dcard">
+      <span class="tag-on">Presencial</span>
+      <h1>${esc(j.display_title)}</h1>
+      <div class="job-co big">${ICON.co} ${esc(j.company)}</div>
+      <div class="metas">
+        ${meta(ICON.pin, 'Ubicación', `${esc(j.geo.commune || '—')}, ${esc(j.geo.region.replace('Región ', ''))}`)}
+        ${meta(ICON.bag, 'Jornada', EMP[j.employment] || 'Por definir')}
+        ${meta(ICON.clock, 'Publicado', ago(j.published_at))}
+        ${meta(ICON.cash, 'Salario', j.salary_min ? money(j.salary_min) + (j.salary_max && j.salary_max !== j.salary_min ? ' – ' + money(j.salary_max) : '') : 'No publicado')}
+      </div>
+      <div class="chips">
+        <span class="chip">${SEN[j.seniority] || 'Experiencia n/d'}</span>
+        <span class="chip">${ICON.layer} ${esc(area)}</span>
+        <span class="chip">${j.exp_years ?? 0} año(s) exp. mín.</span>
+      </div>
+      <div class="applybox">
+        <p><b>¿Te interesa esta oferta?</b><br>Serás redirigido a <b>${esc(SOURCES[j.apply.source_id].name)}</b> para completar tu postulación.</p>
+        <a class="btn go wide" id="apply" href="${j.apply.apply_url}" target="_blank" rel="noopener nofollow">Postular en ${esc(SOURCES[j.apply.source_id].name)}</a>
+      </div>
+    </div>
+
+    <div class="dcard"><h2>Descripción del puesto</h2><p class="body">${esc(j.description)}</p></div>
+
+    <div class="dcard verif">
+      <span class="vi">${ICON.shield}</span>
+      <div><b>Oferta verificada ${ago(j.last_verified_at).toLowerCase()}</b>
+        <p>Fuente: ${esc(SOURCES[j.apply.source_id].name)}${j.occurrences.length > 1 ? ` · Detectada en ${j.occurrences.length} fuentes y consolidada en un solo aviso` : ''} · Confianza presencial: ${Math.round(j.onsite_confidence * 100)}% · Vence el ${j.expires_at.toLocaleDateString('es-CL')}</p>
+        <details><summary>Cómo llegamos a este registro</summary>
+          <ul>${j.wp_trace.map(t => `<li>${esc(t)}</li>`).join('')}
+              ${j.occurrences.map(o => `<li>Ocurrencia: ${esc(SOURCES[o.source_id].name)} · ${esc(o.external_job_id)}</li>`).join('')}
+              <li>Ubicación resuelta por ${esc(j.geo.method)} (confianza ${j.geo.confidence.toFixed(2)})</li></ul>
+        </details>
+      </div>
+    </div>
+
+    ${sim.length ? `<div class="block"><h2 class="mb">Empleos similares</h2><div class="list">${sim.map(card).join('')}</div></div>` : ''}
+  </section>`;
+}
+
+/* ── Pintar + eventos ─────────────────────────────────────── */
+function paintApp() {
+  $('#app').innerHTML = V.view === 'home' ? viewHome() : V.view === 'job' ? viewJob() : viewSearch();
+
+  if ($('#q')) { mountAutocomplete($('#q'), $('#ac-q'), 'q'); mountAutocomplete($('#loc'), $('#ac-loc'), 'loc'); }
+  if ($('#go')) $('#go').onclick = doSearch;
+  $$('#q, #loc').forEach(i => i.onkeydown = e => { if (e.key === 'Enter' && $('#ac-' + i.id).hidden) doSearch(); });
+
+  $$('[data-pop]').forEach(b => b.onclick = () => { F.q = b.dataset.pop; F.loc = ''; nav('buscar'); });
+  $$('[data-loc]').forEach(b => b.onclick = () => { F.loc = b.dataset.loc; F.q = ''; nav('buscar'); });
+  $$('[data-q]').forEach(b => b.onclick = () => { F.q = b.dataset.q; F.loc = ''; nav('buscar'); });
+  $$('[data-go]').forEach(b => b.onclick = () => nav(b.dataset.go));
+  $$('.job').forEach(c => {
+    c.onclick = () => nav('job', c.dataset.id);
+    c.onkeydown = e => { if (e.key === 'Enter') nav('job', c.dataset.id); };
+  });
+
+  if ($('#sort')) $('#sort').onchange = e => { V.sort = e.target.value; paintApp(); };
+  if ($('#apply')) $('#apply').onclick = () => { jobs.find(x => x.id === V.jobId).apply.clicks++; };
+
+  const F0 = $('#filters');
+  if (F0) {
+    F0.oninput = e => {
+      const k = e.target.dataset.f; if (!k) return;
+      if (k === 'days' || k === 'salary') F[k] = +e.target.value;
+      else if (k === 'salaryOnly') F[k] = e.target.checked;
+      else e.target.checked ? F[k].add(e.target.value) : F[k].delete(e.target.value);
+      const open = F0.classList.contains('open');
+      paintApp();
+      if (open) { $('#filters').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    };
+    $('#clear').onclick = clearAll;
+    $('#openf').onclick = () => { F0.classList.add('open'); document.body.style.overflow = 'hidden'; $('#fback').focus(); };
+    $('#fback').onclick = $('#fdone').onclick = closeF;
+  }
+  if ($('#clear2')) $('#clear2').onclick = clearAll;
+}
+const closeF = () => { $('#filters').classList.remove('open'); document.body.style.overflow = ''; };
+const clearAll = () => {
+  F.employment.clear(); F.seniority.clear(); F.source.clear();
+  F.days = 0; F.salary = 0; F.salaryOnly = false;
+  const open = $('#filters')?.classList.contains('open');
+  paintApp(); if (open) closeF();
+};
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#filters')?.classList.contains('open')) closeF(); });
+$('#logo').onclick = () => nav('home');
+
+/* ── Aviso de procedencia de los datos ────────────────────── */
+function banner(real, n, fuentes) {
+  $('#banner').innerHTML = real
+    ? `<div class="bn ok">Datos reales · ${n} avisos crudos desde ${fuentes} fuente(s) · última ingesta ${new Date().toLocaleString('es-CL')}</div>`
+    : `<div class="bn warn"><b>Datos de ejemplo.</b> 25 avisos escritos a mano para probar el motor. Corre <code>conector.mjs</code> para reemplazarlos por avisos reales.</div>`;
+}
+
+/* ── Arranque ─────────────────────────────────────────────── */
+buildIndex(RAW); banner(false); paintApp();
+
+try {
+  fetch('./jobs.json')
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => {
+      const rows = Array.isArray(d) ? d : d.jobs;
+      if (!rows?.length) return;
+      if (d.sources) Object.assign(SOURCES, d.sources);
+      buildIndex(rows);
+      banner(true, rows.length, Object.keys(d.sources || {}).length || '—');
+      paintApp();
+    })
+    .catch(() => {});
+} catch { /* sandbox sin acceso a red: se queda con los datos de ejemplo */ }
+
+</script>
+</body>
+</html>
