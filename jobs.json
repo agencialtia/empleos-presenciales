@@ -1,149 +1,149 @@
 {
- "generado": "2026-10-14T11:04:40.122Z",
+ "generado": "2026-10-14T16:24:48.760Z",
  "runs": [
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:18.475Z",
+   "inicio": "2026-10-14T16:24:26.214Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 639
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 750
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:20.315Z",
+   "inicio": "2026-10-14T16:24:28.165Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 154
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 170
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:21.669Z",
+   "inicio": "2026-10-14T16:24:29.536Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 119
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 157
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:22.989Z",
+   "inicio": "2026-10-14T16:24:30.894Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 117
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 156
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:24.307Z",
+   "inicio": "2026-10-14T16:24:32.251Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 117
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 157
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:25.624Z",
+   "inicio": "2026-10-14T16:24:33.609Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 118
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 157
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:26.942Z",
+   "inicio": "2026-10-14T16:24:34.966Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 119
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 157
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:28.261Z",
+   "inicio": "2026-10-14T16:24:36.324Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 119
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 156
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:29.580Z",
+   "inicio": "2026-10-14T16:24:37.681Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 119
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 158
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:30.899Z",
+   "inicio": "2026-10-14T16:24:39.040Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 119
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 156
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:32.218Z",
+   "inicio": "2026-10-14T16:24:40.397Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 117
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 157
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:33.535Z",
+   "inicio": "2026-10-14T16:24:41.754Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 117
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 211
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:34.852Z",
+   "inicio": "2026-10-14T16:24:43.166Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 117
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 293
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:36.170Z",
+   "inicio": "2026-10-14T16:24:44.659Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 116
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 156
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:37.487Z",
+   "inicio": "2026-10-14T16:24:46.015Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 116
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 155
   },
   {
    "fuente": "careerjet:undefined",
-   "inicio": "2026-10-14T11:04:38.804Z",
+   "inicio": "2026-10-14T16:24:47.371Z",
    "obtenidos": 0,
    "chile": 0,
    "errores": 1,
-   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 40.119.37.104\",\n   \"type\" : \"ERROR\"\n}\n",
-   "ms": 118
+   "error": "403 {\n   \"error\" : \"Unauthorized access from IP 20.3.189.241\",\n   \"type\" : \"ERROR\"\n}\n",
+   "ms": 189
   }
  ],
  "sources": {},
